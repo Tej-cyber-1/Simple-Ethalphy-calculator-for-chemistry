@@ -33,7 +33,7 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          uvx drafter main.py --compile --output-directory _site --production
+          uvx drafter main.py --compile --output-directory _site --production --additional-paths backend.py
           touch _site/.nojekyll
 
       - uses: actions/upload-pages-artifact@main
