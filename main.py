@@ -1,9 +1,7 @@
 from drafter import *
 from dataclasses import dataclass, field
 from backend import get_species_data, balance_equation
-import re
-from fractions import Fraction
-from math import gcd
+
 
 # Global CONSTANT (allowed): 1 kcal = 4.184 kJ
 KJ_PER_KCAL = 4.184
