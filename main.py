@@ -6,10 +6,10 @@ from backend import get_species_data, balance_equation
 # Global CONSTANT (allowed): 1 kcal = 4.184 kJ
 KJ_PER_KCAL = 4.184
 
-set_website_title("ThermoStats")
 """
 This section sets the necessary indentifier information the drafter template recommended.
 """
+set_website_title("ThermoStats")
 set_site_information(
     author="Tej Shourya Boppana",
     description="Simple ethalphy calculator for chem-engineers built by chem-engineer",
@@ -105,11 +105,8 @@ def index(state: State) -> Page:
 
 
 @route
-def calculate(state: State, reactant1: str, reactant2: str,
-              product1: str, product2: str) -> Page:
-
+def calculate(state: State, reactant1: str, reactant2: str, product1: str, product2: str) -> Page:
     """Balance the reaction, compute its enthalpy, and save it to history.
- 
     Uses Hess's law: sum(n * dHf of products) - sum(n * dHf of reactants).
     If an input is missing, a compound is unknown, or the equation can't
     be balanced, an error message is stored in state.result instead.
@@ -152,8 +149,8 @@ def calculate(state: State, reactant1: str, reactant2: str,
 
 @route
 def result_page(state: State) -> Page:
-    """Show the most recent calculation and whether it releases or absorbs heat.
- 
+    """
+    Show the most recent calculation and whether it releases or absorbs heat.
     Args:
         state: The current site state; the last item in history is shown,
             and state.result is updated with a one-line summary.
@@ -181,7 +178,8 @@ def result_page(state: State) -> Page:
 
 @route
 def history_page(state: State) -> Page:
-    """List saved reactions, with a filter, a running total, and manage buttons.
+    """
+    List saved reactions, with a filter, a running total, and manage buttons.
  
     If the exothermic filter is on, reactions with ΔH >= 0 are skipped.
  
@@ -221,7 +219,8 @@ def history_page(state: State) -> Page:
 
 @route
 def apply_filter(state: State, only_exothermic: bool) -> Page:
-    """Save the exothermic-only checkbox choice, then redisplay the history.
+    """
+    Save the exothermic-only checkbox choice, then redisplay the history.
  
     Args:
         state: The current site state (only_exothermic is updated).
@@ -261,7 +260,8 @@ def detail_page(state: State, choice: str) -> Page:
 
 @route
 def delete_reaction(state: State, choice: str) -> Page:
-    """Remove one saved reaction from history, then redisplay the history.
+    """
+    Remove one saved reaction from history, then redisplay the history.
  
     Args:
         state: The current site state (history is changed).
@@ -292,7 +292,8 @@ def clear_history(state: State) -> Page:
 
 @route
 def settings_page(state: State) -> Page:
-    """Show the settings page where the display unit (kJ or kcal) is chosen.
+    """
+    Show the settings page where the display unit (kJ or kcal) is chosen.
  
     Args:
         state: The current site state (the current unit is preselected).
@@ -310,7 +311,8 @@ def settings_page(state: State) -> Page:
 
 @route
 def save_settings(state: State, unit: str) -> Page:
-    """Save the chosen display unit, then redisplay the settings page.
+    """
+    Save the chosen display unit, then redisplay the settings page.
  
     Args:
         state: The current site state (unit is updated).
@@ -325,7 +327,8 @@ def save_settings(state: State, unit: str) -> Page:
 
 @route
 def help_page(state: State) -> Page:
-     """Show instructions on how to use the calculator.
+     """
+     Show instructions on how to use the calculator.
  
     Args:
         state: The current site state (not changed).
