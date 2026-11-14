@@ -12,7 +12,7 @@ set_site_information(
     description="Simple ethalphy calculator for chem-engineers built by chem-engineer",
     sources="Thanks to the Drafter docs.",
     planning=["plan.pdf", "design.pdf"],
-    links=["https://github.com/Tej-cyber-1/your-repository"]
+    links=["https://github.com/Tej-cyber-1/Simple-Ethalphy-calculator-for-chemistry"]
 )
 hide_debug_information()
 
