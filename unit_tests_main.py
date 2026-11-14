@@ -1,6 +1,5 @@
 # ============================================================
 # PASTE THIS INTO main.py, right ABOVE the line: start_server(State())
-# If your course imports assert_equal differently, change this import.
 # You can choose to use all unit tests or none at all 
 #( I just put these many to get the project requirements)
 # ============================================================
