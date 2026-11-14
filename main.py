@@ -77,15 +77,15 @@ def history_labels(state: State) -> list[str]:
     return labels
 
 
-#routes 
+#routes
 @route
 def index(state: State) -> Page:
     """Show the calculator home page with four compound boxes.
- 
+
     Args:
         state: The current site state; its saved inputs refill the boxes
             and its result text (if any) appears under the button.
- 
+
     Returns:
         The calculator Page.
     """
@@ -110,17 +110,17 @@ def calculate(state: State, reactant1: str, reactant2: str, product1: str, produ
     Uses Hess's law: sum(n * dHf of products) - sum(n * dHf of reactants).
     If an input is missing, a compound is unknown, or the equation can't
     be balanced, an error message is stored in state.result instead.
- 
+
     Args:
         state: The current site state (inputs, result, and history are updated).
         reactant1: First reactant formula (required).
         reactant2: Second reactant formula (may be empty).
         product1: First product formula (required).
         product2: Second product formula (may be empty).
- 
+
     Returns:
         The result Page on success, or the calculator Page with an error.
-    """              
+    """
     state.reactant1, state.reactant2 = reactant1, reactant2
     state.product1, state.product2 = product1, product2
 
@@ -154,7 +154,7 @@ def result_page(state: State) -> Page:
     Args:
         state: The current site state; the last item in history is shown,
             and state.result is updated with a one-line summary.
- 
+
     Returns:
         The result Page.
     """
@@ -180,12 +180,12 @@ def result_page(state: State) -> Page:
 def history_page(state: State) -> Page:
     """
     List saved reactions, with a filter, a running total, and manage buttons.
- 
+
     If the exothermic filter is on, reactions with ΔH >= 0 are skipped.
- 
+
     Args:
         state: The current site state (history, unit, and filter are read).
- 
+
     Returns:
         The history Page, or a short "no calculations" Page if empty.
     """
@@ -221,11 +221,11 @@ def history_page(state: State) -> Page:
 def apply_filter(state: State, only_exothermic: bool) -> Page:
     """
     Save the exothermic-only checkbox choice, then redisplay the history.
- 
+
     Args:
         state: The current site state (only_exothermic is updated).
         only_exothermic: True if the CheckBox was ticked.
- 
+
     Returns:
         The history Page.
     """
@@ -235,13 +235,13 @@ def apply_filter(state: State, only_exothermic: bool) -> Page:
 
 @route
 def detail_page(state: State, choice: str) -> Page:
-     """Show one saved reaction, with each compound's enthalpy of formation.
- 
+    """Show one saved reaction, with each compound's enthalpy of formation.
+
     Args:
         state: The current site state (history and unit are read).
         choice: The SelectBox label, like "2: CH4 + 2 O2 → ...". The number
             before the colon says which saved reaction was picked.
- 
+
     Returns:
         The reaction details Page.
     """
@@ -262,11 +262,11 @@ def detail_page(state: State, choice: str) -> Page:
 def delete_reaction(state: State, choice: str) -> Page:
     """
     Remove one saved reaction from history, then redisplay the history.
- 
+
     Args:
         state: The current site state (history is changed).
         choice: The SelectBox label, like "2: CH4 + 2 O2 → ...".
- 
+
     Returns:
         The history Page.
     """
@@ -277,11 +277,11 @@ def delete_reaction(state: State, choice: str) -> Page:
 
 @route
 def clear_history(state: State) -> Page:
-     """Delete every saved reaction and the last result message.
- 
+    """Delete every saved reaction and the last result message.
+
     Args:
         state: The current site state (history and result are reset).
- 
+
     Returns:
         The history Page, which will show that nothing is saved.
     """
@@ -294,10 +294,10 @@ def clear_history(state: State) -> Page:
 def settings_page(state: State) -> Page:
     """
     Show the settings page where the display unit (kJ or kcal) is chosen.
- 
+
     Args:
         state: The current site state (the current unit is preselected).
- 
+
     Returns:
         The settings Page.
     """
@@ -313,11 +313,11 @@ def settings_page(state: State) -> Page:
 def save_settings(state: State, unit: str) -> Page:
     """
     Save the chosen display unit, then redisplay the settings page.
- 
+
     Args:
         state: The current site state (unit is updated).
         unit: The unit picked in the SelectBox, "kJ" or "kcal".
- 
+
     Returns:
         The settings Page.
     """
@@ -327,12 +327,12 @@ def save_settings(state: State, unit: str) -> Page:
 
 @route
 def help_page(state: State) -> Page:
-     """
-     Show instructions on how to use the calculator.
- 
+    """
+    Show instructions on how to use the calculator.
+
     Args:
         state: The current site state (not changed).
- 
+
     Returns:
         The help Page.
     """
