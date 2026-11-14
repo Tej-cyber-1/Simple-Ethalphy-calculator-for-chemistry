@@ -7,6 +7,9 @@ from backend import get_species_data, balance_equation
 KJ_PER_KCAL = 4.184
 
 set_website_title("ThermoStats")
+"""
+This section sets the necessary indentifier information the drafter template recommended.
+"""
 set_site_information(
     author="Tej Shourya Boppana",
     description="Simple ethalphy calculator for chem-engineers built by chem-engineer",
@@ -17,6 +20,8 @@ set_site_information(
 hide_debug_information()
 
 set_website_framed(False)
+
+
 @dataclass
 class Reaction:
     """One saved calculation."""
@@ -75,6 +80,15 @@ def history_labels(state: State) -> list[str]:
 #routes 
 @route
 def index(state: State) -> Page:
+    """Show the calculator home page with four compound boxes.
+ 
+    Args:
+        state: The current site state; its saved inputs refill the boxes
+            and its result text (if any) appears under the button.
+ 
+    Returns:
+        The calculator Page.
+    """
     content = [
         Header("🔥 Thermo-We Got The Heat Calculator 🔥"),
         *nav(),
@@ -93,6 +107,23 @@ def index(state: State) -> Page:
 @route
 def calculate(state: State, reactant1: str, reactant2: str,
               product1: str, product2: str) -> Page:
+
+    """Balance the reaction, compute its enthalpy, and save it to history.
+ 
+    Uses Hess's law: sum(n * dHf of products) - sum(n * dHf of reactants).
+    If an input is missing, a compound is unknown, or the equation can't
+    be balanced, an error message is stored in state.result instead.
+ 
+    Args:
+        state: The current site state (inputs, result, and history are updated).
+        reactant1: First reactant formula (required).
+        reactant2: Second reactant formula (may be empty).
+        product1: First product formula (required).
+        product2: Second product formula (may be empty).
+ 
+    Returns:
+        The result Page on success, or the calculator Page with an error.
+    """              
     state.reactant1, state.reactant2 = reactant1, reactant2
     state.product1, state.product2 = product1, product2
 
@@ -121,6 +152,15 @@ def calculate(state: State, reactant1: str, reactant2: str,
 
 @route
 def result_page(state: State) -> Page:
+    """Show the most recent calculation and whether it releases or absorbs heat.
+ 
+    Args:
+        state: The current site state; the last item in history is shown,
+            and state.result is updated with a one-line summary.
+ 
+    Returns:
+        The result Page.
+    """
     rxn = state.history[-1]
     shown = convert(rxn.delta_h_kj, state.unit)
     if rxn.delta_h_kj < 0:
@@ -141,6 +181,16 @@ def result_page(state: State) -> Page:
 
 @route
 def history_page(state: State) -> Page:
+    """List saved reactions, with a filter, a running total, and manage buttons.
+ 
+    If the exothermic filter is on, reactions with ΔH >= 0 are skipped.
+ 
+    Args:
+        state: The current site state (history, unit, and filter are read).
+ 
+    Returns:
+        The history Page, or a short "no calculations" Page if empty.
+    """
     content = [Header("History"), *nav()]
     if not state.history:
         content.append("No calculations yet.")
@@ -171,12 +221,31 @@ def history_page(state: State) -> Page:
 
 @route
 def apply_filter(state: State, only_exothermic: bool) -> Page:
+    """Save the exothermic-only checkbox choice, then redisplay the history.
+ 
+    Args:
+        state: The current site state (only_exothermic is updated).
+        only_exothermic: True if the CheckBox was ticked.
+ 
+    Returns:
+        The history Page.
+    """
     state.only_exothermic = only_exothermic
     return history_page(state)
 
 
 @route
 def detail_page(state: State, choice: str) -> Page:
+     """Show one saved reaction, with each compound's enthalpy of formation.
+ 
+    Args:
+        state: The current site state (history and unit are read).
+        choice: The SelectBox label, like "2: CH4 + 2 O2 → ...". The number
+            before the colon says which saved reaction was picked.
+ 
+    Returns:
+        The reaction details Page.
+    """
     index_chosen = int(choice.split(":")[0]) - 1
     rxn = state.history[index_chosen]
     lines = [f"Compounds: {', '.join(rxn.species)}"]
@@ -192,6 +261,15 @@ def detail_page(state: State, choice: str) -> Page:
 
 @route
 def delete_reaction(state: State, choice: str) -> Page:
+    """Remove one saved reaction from history, then redisplay the history.
+ 
+    Args:
+        state: The current site state (history is changed).
+        choice: The SelectBox label, like "2: CH4 + 2 O2 → ...".
+ 
+    Returns:
+        The history Page.
+    """
     index_chosen = int(choice.split(":")[0]) - 1
     state.history.pop(index_chosen)
     return history_page(state)
@@ -199,6 +277,14 @@ def delete_reaction(state: State, choice: str) -> Page:
 
 @route
 def clear_history(state: State) -> Page:
+     """Delete every saved reaction and the last result message.
+ 
+    Args:
+        state: The current site state (history and result are reset).
+ 
+    Returns:
+        The history Page, which will show that nothing is saved.
+    """
     state.history = []
     state.result = ""
     return history_page(state)
@@ -206,6 +292,14 @@ def clear_history(state: State) -> Page:
 
 @route
 def settings_page(state: State) -> Page:
+    """Show the settings page where the display unit (kJ or kcal) is chosen.
+ 
+    Args:
+        state: The current site state (the current unit is preselected).
+ 
+    Returns:
+        The settings Page.
+    """
     return Page(state, [
         Header("Settings"), *nav(),
         "Display units:",
@@ -216,12 +310,29 @@ def settings_page(state: State) -> Page:
 
 @route
 def save_settings(state: State, unit: str) -> Page:
+    """Save the chosen display unit, then redisplay the settings page.
+ 
+    Args:
+        state: The current site state (unit is updated).
+        unit: The unit picked in the SelectBox, "kJ" or "kcal".
+ 
+    Returns:
+        The settings Page.
+    """
     state.unit = unit
     return settings_page(state)
 
 
 @route
 def help_page(state: State) -> Page:
+     """Show instructions on how to use the calculator.
+ 
+    Args:
+        state: The current site state (not changed).
+ 
+    Returns:
+        The help Page.
+    """
     return Page(state, [
         Header("Help"), *nav(),
         "Enter one or two reactants and one or two products as plain formulas (H2O, not 'water').",
