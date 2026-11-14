@@ -21,7 +21,16 @@ ENTHALPY_OF_FORMATION = {
 
 
 def get_species_data(formula: str) -> float:
-    """Return the standard enthalpy of formation (kJ/mol) for a formula."""
+    """
+    
+    Takes the user input formula-> checks if that formula has an recorded standard ethalphy,
+
+    if it doesn't exist --> returns "no data"
+
+    else:
+        Return the standard enthalpy of formation (kJ/mol) for a formula.
+    
+    """
     if formula not in ENTHALPY_OF_FORMATION:
         raise ValueError(f"No data for '{formula}'. Known: "
                          + ", ".join(sorted(ENTHALPY_OF_FORMATION)))
@@ -29,7 +38,15 @@ def get_species_data(formula: str) -> float:
 
 
 def parse_formula(formula: str) -> dict:
-    """'C2H6' -> {'C': 2, 'H': 6}. A phase tag like '(g)' is ignored."""
+    """
+    Uses the built-in chemPy Adavnced technique:
+
+     # Advanced technique: re.findall with a regex pattern.
+    # Each match is (element symbol, optional count), e.g. ('H', '2').
+    
+    process summary: 'C2H6' -> {'C': 2, 'H': 6}. A phase tag like '(g)' is ignored.
+    """
+    
     clean = re.sub(r"\((g|l|s|aq)\)$", "", formula)
     # Advanced technique: re.findall with a regex pattern.
     # Each match is (element symbol, optional count), e.g. ('H', '2').
