@@ -40,14 +40,7 @@ The calculator follows three main steps:
 
 1. **Balance the Reaction:** The application parses chemical formulas and calculates the stoichiometric coefficients needed to balance the equation.
 2. **Retrieve Enthalpy Values:** It retrieves the standard enthalpies of formation for the compounds from its built-in dataset.
-3. **Calculate Reaction Enthalpy:** It applies Hess's Law:
-
-\[
-\Delta H^\circ_{\text{rxn}} =
-\sum n\Delta H^\circ_f(\text{products})
--
-\sum n\Delta H^\circ_f(\text{reactants})
-\]
+3. **Calculate Reaction Enthalpy:** It applies Hess's Law
 
 A negative result indicates an exothermic reaction, while a positive result indicates an endothermic reaction.
 
