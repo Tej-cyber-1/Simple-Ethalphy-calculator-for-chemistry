@@ -4,7 +4,7 @@ A Python-based chemical reaction enthalpy calculator developed as a final projec
 
 ## About the Project
 
-ThermoStats is a simple chemistry calculator designed to help users calculate the standard enthalpy change (\(\Delta H^\circ\)) of chemical reactions.
+ThermoStats is a simple chemistry calculator designed to help users calculate the standard enthalpy change of chemical reactions.
 
 The application takes chemical formulas for reactants and products, balances the chemical equation, and calculates the reaction's enthalpy change using Hess's Law.
 
